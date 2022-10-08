@@ -13,7 +13,7 @@ spec:
       port: 2456
       targetPort: 2456
       protocol: UDP
-    - name: valheim-udp1
+    - name: valheim-udp2
       port: 2457
       targetPort: 2457
       protocol: UDP
