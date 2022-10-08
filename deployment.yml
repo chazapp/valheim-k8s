@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valheim-dep
+  namespace: valheim
+spec:
+  selector:
+    matchLabels:
+      app: valheim-dep 
+  template:
+    metadata:
+      labels:
+        app: valheim-dep
+    spec:
+      containers:
+      - name: valheim  
+        image: ghcr.io/lloesche/valheim-server
+        resources:
+          requests:
+            memory: 4096Mi
+            cpu: 250m
+        ports:
+          - name: valheim-1
+            containerPort: 2456
+            protocol: UDP
+          - name: valheim-2
+            containerPort: 2457
+            protocol: UDP
+        env:
+          - name: SERVER_NAME
+            value: "Chaz's Valheim Server"
+          - name: WORLD_NAME
+            value: "Chazzzed"
+          - name: SERVER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: valheim-secret
+                key: server-pass
+        volumeMounts:
+          - name: valheim-data
+            mountPath: /opt/valheim
+          - name: valheim-config
+            mountPath: /config
+      volumes:
+        - name: valheim-data
+          persistentVolumeClaim:
+            claimName: valheim-data
+        - name: valheim-config
+          persistentVolumeClaim:
+            claimName: valheim-config

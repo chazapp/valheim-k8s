@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valheim-data
+  namespace: valheim
+spec:
+  resources:
+    requests:
+      storage: "2048Mi"
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valheim-config
+  namespace: valheim
+spec:
+  resources:
+    requests:
+      storage: "256Mi"
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
